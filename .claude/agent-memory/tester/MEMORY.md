@@ -1,0 +1,2 @@
+- [project_web_testing_setup.md](./project_web_testing_setup.md) - Vitest + RTL testing infrastructure for the Next.js web app
+- [project_mobile_testing_setup.md](./project_mobile_testing_setup.md) - Testing framework, conventions, and mock patterns for the Expo mobile app
