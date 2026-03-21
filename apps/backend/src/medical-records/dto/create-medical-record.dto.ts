@@ -14,22 +14,22 @@ export class PrescriptionDto {
   @ApiProperty({ example: 'Amoxicillin' })
   @IsString()
   @IsNotEmpty()
-  medication: string;
+  medication!: string;
 
   @ApiProperty({ example: '500mg' })
   @IsString()
   @IsNotEmpty()
-  dosage: string;
+  dosage!: string;
 
   @ApiProperty({ example: '3 times daily' })
   @IsString()
   @IsNotEmpty()
-  frequency: string;
+  frequency!: string;
 
   @ApiProperty({ example: '7 days' })
   @IsString()
   @IsNotEmpty()
-  duration: string;
+  duration!: string;
 
   @ApiPropertyOptional({ example: 'Take after meals' })
   @IsString()
@@ -41,22 +41,22 @@ export class CreateMedicalRecordDto {
   @ApiProperty()
   @IsUUID()
   @IsNotEmpty()
-  appointmentId: string;
+  appointmentId!: string;
 
   @ApiProperty()
   @IsUUID()
   @IsNotEmpty()
-  patientId: string;
+  patientId!: string;
 
   @ApiProperty({ example: 'Headache, fever, cough' })
   @IsString()
   @IsNotEmpty()
-  symptoms: string;
+  symptoms!: string;
 
   @ApiProperty({ example: 'Upper respiratory infection' })
   @IsString()
   @IsNotEmpty()
-  diagnosis: string;
+  diagnosis!: string;
 
   @ApiPropertyOptional({ example: 'Rest, fluids, antibiotics' })
   @IsString()

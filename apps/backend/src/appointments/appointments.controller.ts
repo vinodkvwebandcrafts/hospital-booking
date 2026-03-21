@@ -170,6 +170,6 @@ export class AppointmentsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateDto: UpdateAppointmentDto,
   ) {
-    return this.appointmentsService.updateStatus(id, updateDto.status);
+    return this.appointmentsService.updateStatus(id, updateDto.status!);
   }
 }

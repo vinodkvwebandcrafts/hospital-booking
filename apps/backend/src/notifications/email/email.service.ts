@@ -105,7 +105,7 @@ export class EmailService {
       });
       this.logger.log(`Email sent to ${to}: ${subject}`);
     } catch (error) {
-      this.logger.error(`Failed to send email to ${to}: ${error.message}`);
+      this.logger.error(`Failed to send email to ${to}: ${(error as Error).message}`);
     }
   }
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: '/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -27,7 +27,7 @@ apiClient.interceptors.response.use(
         const refreshToken = localStorage.getItem('dashboard_refresh_token');
         if (!refreshToken) throw new Error('No refresh token');
 
-        const { data } = await axios.post('/api/auth/refresh', { refreshToken });
+        const { data } = await axios.post('/api/v1/auth/refresh', { refreshToken });
         const { accessToken } = data.data;
 
         localStorage.setItem('dashboard_access_token', accessToken);

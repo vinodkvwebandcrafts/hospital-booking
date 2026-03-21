@@ -48,7 +48,7 @@ export class PushNotificationService {
         }
       }
     } catch (error) {
-      this.logger.error(`Failed to send push notification: ${error.message}`);
+      this.logger.error(`Failed to send push notification: ${(error as Error).message}`);
     }
   }
 
@@ -82,7 +82,7 @@ export class PushNotificationService {
       }
     } catch (error) {
       this.logger.error(
-        `Failed to send bulk push notifications: ${error.message}`,
+        `Failed to send bulk push notifications: ${(error as Error).message}`,
       );
     }
   }

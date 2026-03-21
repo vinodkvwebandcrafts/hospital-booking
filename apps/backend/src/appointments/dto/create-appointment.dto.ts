@@ -15,12 +15,12 @@ export class CreateAppointmentDto {
   @ApiProperty()
   @IsUUID()
   @IsNotEmpty()
-  doctorId: string;
+  doctorId!: string;
 
   @ApiProperty({ example: '2026-03-25T10:00:00.000Z' })
   @IsDateString()
   @IsNotEmpty()
-  appointmentDateTime: string;
+  appointmentDateTime!: string;
 
   @ApiPropertyOptional({ example: 30 })
   @IsNumber()

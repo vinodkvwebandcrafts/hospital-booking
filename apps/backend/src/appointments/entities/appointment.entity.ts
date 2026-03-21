@@ -33,40 +33,40 @@ export enum ConsultationType {
 @Index('IDX_appointment_status', ['status'])
 export class AppointmentEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'doctor_id' })
-  doctorId: string;
+  doctorId!: string;
 
   @ManyToOne(() => DoctorEntity, { eager: true })
   @JoinColumn({ name: 'doctor_id' })
-  doctor: DoctorEntity;
+  doctor!: DoctorEntity;
 
   @Column({ name: 'patient_id' })
-  patientId: string;
+  patientId!: string;
 
   @ManyToOne(() => UserEntity, { eager: true })
   @JoinColumn({ name: 'patient_id' })
-  patient: UserEntity;
+  patient!: UserEntity;
 
   @Column({ name: 'appointment_date_time', type: 'timestamp with time zone' })
-  appointmentDateTime: Date;
+  appointmentDateTime!: Date;
 
   @Column({ name: 'duration_minutes', default: 30 })
-  durationMinutes: number;
+  durationMinutes!: number;
 
   @Column({
     type: 'enum',
     enum: AppointmentStatus,
     default: AppointmentStatus.SCHEDULED,
   })
-  status: AppointmentStatus;
+  status!: AppointmentStatus;
 
   @Column({ nullable: true })
-  reason: string;
+  reason!: string;
 
   @Column({ type: 'text', nullable: true })
-  notes: string;
+  notes!: string;
 
   @Column({
     name: 'consultation_type',
@@ -74,7 +74,7 @@ export class AppointmentEntity {
     enum: ConsultationType,
     default: ConsultationType.IN_PERSON,
   })
-  consultationType: ConsultationType;
+  consultationType!: ConsultationType;
 
   @Column({
     name: 'consultation_fee',
@@ -83,20 +83,20 @@ export class AppointmentEntity {
     scale: 2,
     nullable: true,
   })
-  consultationFee: number;
+  consultationFee!: number;
 
   @Column({ name: 'meeting_link', nullable: true })
-  meetingLink: string;
+  meetingLink!: string;
 
   @Column({ name: 'reminder_sent', default: false })
-  reminderSent: boolean;
+  reminderSent!: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @Column({ name: 'cancelled_at', type: 'timestamp with time zone', nullable: true })
-  cancelledAt: Date;
+  cancelledAt!: Date;
 }

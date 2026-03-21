@@ -10,26 +10,26 @@ import { DoctorEntity } from './doctor.entity';
 @Entity('doctor_availabilities')
 export class AvailabilityEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'doctor_id' })
-  doctorId: string;
+  doctorId!: string;
 
   @ManyToOne(() => DoctorEntity, (doctor) => doctor.availabilities, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'doctor_id' })
-  doctor: DoctorEntity;
+  doctor!: DoctorEntity;
 
   @Column({ name: 'day_of_week', type: 'int' })
-  dayOfWeek: number;
+  dayOfWeek!: number;
 
   @Column({ name: 'start_time', type: 'varchar', length: 5 })
-  startTime: string;
+  startTime!: string;
 
   @Column({ name: 'end_time', type: 'varchar', length: 5 })
-  endTime: string;
+  endTime!: string;
 
   @Column({ name: 'is_active', default: true })
-  isActive: boolean;
+  isActive!: boolean;
 }

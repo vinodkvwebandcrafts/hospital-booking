@@ -16,57 +16,57 @@ export enum UserRole {
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column({ select: false })
-  password: string;
+  password!: string;
 
   @Column({ name: 'first_name' })
-  firstName: string;
+  firstName!: string;
 
   @Column({ name: 'last_name' })
-  lastName: string;
+  lastName!: string;
 
   @Column()
-  phone: string;
+  phone!: string;
 
   @Column({
     type: 'enum',
     enum: UserRole,
     default: UserRole.PATIENT,
   })
-  role: UserRole;
+  role!: UserRole;
 
   @Column({ name: 'date_of_birth', type: 'date', nullable: true })
-  dateOfBirth: string;
+  dateOfBirth!: string;
 
   @Column({ nullable: true })
-  gender: string;
+  gender!: string;
 
   @Column({ nullable: true })
-  address: string;
+  address!: string;
 
   @Column({ nullable: true })
-  city: string;
+  city!: string;
 
   @Column({ nullable: true })
-  country: string;
+  country!: string;
 
   @Column({ name: 'postal_code', nullable: true })
-  postalCode: string;
+  postalCode!: string;
 
   @Column({ name: 'expo_push_token', nullable: true })
-  expoPushToken: string;
+  expoPushToken!: string;
 
   @Column({ name: 'is_active', default: true })
-  isActive: boolean;
+  isActive!: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 }

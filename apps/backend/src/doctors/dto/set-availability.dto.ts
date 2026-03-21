@@ -16,21 +16,21 @@ export class AvailabilitySlotDto {
   @IsInt()
   @Min(0)
   @Max(6)
-  dayOfWeek: number;
+  dayOfWeek!: number;
 
   @ApiProperty({ example: '09:00' })
   @IsString()
   @Matches(/^\d{2}:\d{2}$/, { message: 'startTime must be in HH:MM format' })
-  startTime: string;
+  startTime!: string;
 
   @ApiProperty({ example: '17:00' })
   @IsString()
   @Matches(/^\d{2}:\d{2}$/, { message: 'endTime must be in HH:MM format' })
-  endTime: string;
+  endTime!: string;
 
   @ApiProperty({ example: true })
   @IsBoolean()
-  isActive: boolean;
+  isActive!: boolean;
 }
 
 export class SetAvailabilityDto {
@@ -38,5 +38,5 @@ export class SetAvailabilityDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => AvailabilitySlotDto)
-  availabilities: AvailabilitySlotDto[];
+  availabilities!: AvailabilitySlotDto[];
 }

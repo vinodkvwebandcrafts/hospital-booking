@@ -58,7 +58,7 @@ export function getDoctorColumns({ onEdit, onDelete }: DoctorColumnsOptions): Co
         return (
           <div className="flex items-center gap-1">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="font-medium">{rating.toFixed(1)}</span>
+            <span className="font-medium">{parseFloat(String(rating)).toFixed(1)}</span>
           </div>
         );
       },
@@ -68,7 +68,7 @@ export function getDoctorColumns({ onEdit, onDelete }: DoctorColumnsOptions): Co
       header: 'Fee',
       cell: ({ getValue }) => {
         const fee = getValue<number>();
-        return fee ? formatCurrency(fee) : '-';
+        return fee ? formatCurrency(parseFloat(String(fee))) : '-';
       },
     },
     {

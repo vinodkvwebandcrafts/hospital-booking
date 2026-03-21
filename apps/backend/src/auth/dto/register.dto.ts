@@ -5,26 +5,26 @@ export class RegisterDto {
   @ApiProperty({ example: 'john@example.com' })
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @ApiProperty({ example: 'password123' })
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
-  password: string;
+  password!: string;
 
   @ApiProperty({ example: 'John' })
   @IsString()
   @IsNotEmpty()
-  firstName: string;
+  firstName!: string;
 
   @ApiProperty({ example: 'Doe' })
   @IsString()
   @IsNotEmpty()
-  lastName: string;
+  lastName!: string;
 
   @ApiProperty({ example: '+1234567890' })
   @IsString()
   @IsNotEmpty()
-  phone: string;
+  phone!: string;
 }

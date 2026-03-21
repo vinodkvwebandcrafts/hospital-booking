@@ -12,12 +12,12 @@ export class CreateDoctorDto {
   @ApiProperty()
   @IsUUID()
   @IsNotEmpty()
-  userId: string;
+  userId!: string;
 
   @ApiProperty({ example: 'Cardiology' })
   @IsString()
   @IsNotEmpty()
-  specialization: string;
+  specialization!: string;
 
   @ApiPropertyOptional({ example: 'LIC-12345' })
   @IsString()

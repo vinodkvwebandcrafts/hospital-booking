@@ -33,7 +33,7 @@ export class SlotLockingService implements OnModuleDestroy {
     });
 
     this.redis.connect().catch((err) => {
-      this.logger.warn(`Redis connection failed: ${err.message}. Slot locking will operate without Redis.`);
+      this.logger.warn(`Redis connection failed: ${(err as Error).message}. Slot locking will operate without Redis.`);
     });
   }
 
@@ -65,7 +65,7 @@ export class SlotLockingService implements OnModuleDestroy {
       const result = await this.redis.set(key, userId, 'EX', ttl, 'NX');
       return result === 'OK';
     } catch (error) {
-      this.logger.error(`Failed to acquire slot lock: ${error.message}`);
+      this.logger.error(`Failed to acquire slot lock: ${(error as Error).message}`);
       return true;
     }
   }
@@ -89,7 +89,7 @@ export class SlotLockingService implements OnModuleDestroy {
       );
       return result === 1;
     } catch (error) {
-      this.logger.error(`Failed to release slot lock: ${error.message}`);
+      this.logger.error(`Failed to release slot lock: ${(error as Error).message}`);
       return false;
     }
   }
@@ -104,7 +104,7 @@ export class SlotLockingService implements OnModuleDestroy {
       const result = await this.redis.exists(key);
       return result === 1;
     } catch (error) {
-      this.logger.error(`Failed to check slot lock: ${error.message}`);
+      this.logger.error(`Failed to check slot lock: ${(error as Error).message}`);
       return false;
     }
   }
@@ -121,7 +121,7 @@ export class SlotLockingService implements OnModuleDestroy {
       const key = this.getKey(doctorId, dateTime);
       return this.redis.get(key);
     } catch (error) {
-      this.logger.error(`Failed to get slot lock owner: ${error.message}`);
+      this.logger.error(`Failed to get slot lock owner: ${(error as Error).message}`);
       return null;
     }
   }

@@ -14,23 +14,23 @@ import { AvailabilityEntity } from './availability.entity';
 @Entity('doctors')
 export class DoctorEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'user_id' })
-  userId: string;
+  userId!: string;
 
   @OneToOne(() => UserEntity, { eager: true })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
+  user!: UserEntity;
 
   @Column()
-  specialization: string;
+  specialization!: string;
 
   @Column({ name: 'license_number', nullable: true })
-  licenseNumber: string;
+  licenseNumber!: string;
 
   @Column({ type: 'text', nullable: true })
-  bio: string;
+  bio!: string;
 
   @Column({
     name: 'average_rating',
@@ -39,13 +39,13 @@ export class DoctorEntity {
     scale: 2,
     default: 0,
   })
-  averageRating: number;
+  averageRating!: number;
 
   @Column({ name: 'total_reviews', default: 0 })
-  totalReviews: number;
+  totalReviews!: number;
 
   @Column({ name: 'appointment_duration_minutes', default: 30 })
-  appointmentDurationMinutes: number;
+  appointmentDurationMinutes!: number;
 
   @Column({
     name: 'consultation_fee',
@@ -54,25 +54,25 @@ export class DoctorEntity {
     scale: 2,
     nullable: true,
   })
-  consultationFee: number;
+  consultationFee!: number;
 
   @Column({ name: 'clinic_name', nullable: true })
-  clinicName: string;
+  clinicName!: string;
 
   @Column({ name: 'clinic_address', nullable: true })
-  clinicAddress: string;
+  clinicAddress!: string;
 
   @Column({ name: 'is_available', default: true })
-  isAvailable: boolean;
+  isAvailable!: boolean;
 
   @OneToMany(() => AvailabilityEntity, (availability) => availability.doctor, {
     cascade: true,
   })
-  availabilities: AvailabilityEntity[];
+  availabilities!: AvailabilityEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 }

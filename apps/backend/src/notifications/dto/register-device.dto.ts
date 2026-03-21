@@ -5,10 +5,10 @@ export class RegisterDeviceDto {
   @ApiProperty({ example: 'ExponentPushToken[xxxxxx]' })
   @IsString()
   @IsNotEmpty()
-  pushToken: string;
+  pushToken!: string;
 
   @ApiProperty({ enum: ['ios', 'android'] })
   @IsString()
   @IsIn(['ios', 'android'])
-  deviceType: 'ios' | 'android';
+  deviceType!: 'ios' | 'android';
 }

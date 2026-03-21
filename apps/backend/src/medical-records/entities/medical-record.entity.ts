@@ -18,40 +18,40 @@ import { DoctorEntity } from '../../doctors/entities/doctor.entity';
 @Index('IDX_medical_record_doctor', ['doctorId'])
 export class MedicalRecordEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'appointment_id' })
-  appointmentId: string;
+  appointmentId!: string;
 
   @OneToOne(() => AppointmentEntity)
   @JoinColumn({ name: 'appointment_id' })
-  appointment: AppointmentEntity;
+  appointment!: AppointmentEntity;
 
   @Column({ name: 'patient_id' })
-  patientId: string;
+  patientId!: string;
 
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'patient_id' })
-  patient: UserEntity;
+  patient!: UserEntity;
 
   @Column({ name: 'doctor_id' })
-  doctorId: string;
+  doctorId!: string;
 
   @ManyToOne(() => DoctorEntity)
   @JoinColumn({ name: 'doctor_id' })
-  doctor: DoctorEntity;
+  doctor!: DoctorEntity;
 
   @Column({ type: 'text' })
-  symptoms: string;
+  symptoms!: string;
 
   @Column({ type: 'text' })
-  diagnosis: string;
+  diagnosis!: string;
 
   @Column({ name: 'treatment_plan', type: 'text', nullable: true })
-  treatmentPlan: string;
+  treatmentPlan!: string;
 
   @Column({ type: 'json', nullable: true })
-  prescriptions: {
+  prescriptions!: {
     medication: string;
     dosage: string;
     frequency: string;
@@ -60,17 +60,17 @@ export class MedicalRecordEntity {
   }[];
 
   @Column({ name: 'lab_results', type: 'text', nullable: true })
-  labResults: string;
+  labResults!: string;
 
   @Column({ name: 'attachment_urls', type: 'simple-json', nullable: true })
-  attachmentUrls: string[];
+  attachmentUrls!: string[];
 
   @Column({ name: 'is_confidential', default: false })
-  isConfidential: boolean;
+  isConfidential!: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 }
