@@ -41,14 +41,14 @@ export function DoctorProfile({ doctor }: DoctorProfileProps) {
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < Math.round(doctor.averageRating)
+                      i < Math.round(Number(doctor.averageRating) || 0)
                         ? 'fill-yellow-400 text-yellow-400'
                         : 'text-gray-300'
                     }`}
                   />
                 ))}
                 <span className="ml-1 text-sm text-gray-500">
-                  {doctor.averageRating.toFixed(1)} ({doctor.totalReviews} reviews)
+                  {(Number(doctor.averageRating) || 0).toFixed(1)} ({doctor.totalReviews} reviews)
                 </span>
               </div>
 

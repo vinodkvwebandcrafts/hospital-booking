@@ -72,6 +72,14 @@ export class AuthService {
     }
   }
 
+  async getMe(userId: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user || !user.isActive) {
+      throw new UnauthorizedException('User not found or inactive');
+    }
+    return this.sanitizeUser(user);
+  }
+
   async validateUser(email: string, password: string): Promise<UserEntity> {
     const user = await this.usersService.findByEmailWithPassword(email);
 
