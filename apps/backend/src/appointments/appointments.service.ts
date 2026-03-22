@@ -183,8 +183,8 @@ export class AppointmentsService {
       date,
     );
 
-    const startOfDay = new Date(`${date}T00:00:00.000Z`);
-    const endOfDay = new Date(`${date}T23:59:59.999Z`);
+    const startOfDay = new Date(`${date}T00:00:00`);
+    const endOfDay = new Date(`${date}T23:59:59.999`);
 
     const bookedAppointments = await this.appointmentsRepository
       .createQueryBuilder('appointment')
@@ -201,14 +201,14 @@ export class AppointmentsService {
     const bookedTimes = new Set(
       bookedAppointments.map((apt) => {
         const d = new Date(apt.appointmentDateTime);
-        return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
+        return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
       }),
     );
 
     const result = await Promise.all(
       allSlots.map(async (slot) => {
         const isBooked = bookedTimes.has(slot.startTime);
-        const dateTimeKey = new Date(`${date}T${slot.startTime}:00.000Z`).toISOString();
+        const dateTimeKey = new Date(`${date}T${slot.startTime}:00`).toISOString();
         const isLocked = await this.slotLockingService.isSlotLocked(
           doctorId,
           dateTimeKey,

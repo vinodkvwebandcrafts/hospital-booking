@@ -22,8 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2563eb"
       },
-      "package": "com.hospitalbooking.app",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.hospitalbooking.app"
     },
     "web": {
       "bundler": "metro",

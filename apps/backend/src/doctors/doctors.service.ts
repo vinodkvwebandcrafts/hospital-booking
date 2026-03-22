@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not, In } from 'typeorm';
 import { DoctorEntity } from './entities/doctor.entity';
 import { AvailabilityEntity } from './entities/availability.entity';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { SetAvailabilityDto } from './dto/set-availability.dto';
+import { AppointmentEntity, AppointmentStatus } from '../appointments/entities/appointment.entity';
+import { SlotLockingService } from '../appointments/slot-locking/slot-locking.service';
 
 @Injectable()
 export class DoctorsService {
@@ -14,6 +16,9 @@ export class DoctorsService {
     private readonly doctorsRepository: Repository<DoctorEntity>,
     @InjectRepository(AvailabilityEntity)
     private readonly availabilityRepository: Repository<AvailabilityEntity>,
+    @InjectRepository(AppointmentEntity)
+    private readonly appointmentsRepository: Repository<AppointmentEntity>,
+    private readonly slotLockingService: SlotLockingService,
   ) {}
 
   async create(createDoctorDto: CreateDoctorDto): Promise<DoctorEntity> {
@@ -119,19 +124,21 @@ export class DoctorsService {
   async getAvailableSlots(
     doctorId: string,
     date: string,
-  ): Promise<{ startTime: string; endTime: string }[]> {
+  ): Promise<{ startTime: string; endTime: string; isAvailable: boolean; isLocked: boolean }[]> {
     const doctor = await this.findById(doctorId);
 
-    const targetDate = new Date(date);
-    // JavaScript: 0=Sunday, but our system: 0=Monday
-    const jsDay = targetDate.getDay();
+    // Parse date parts directly to avoid timezone-shifted day-of-week
+    const [year, month, day] = date.split('-').map(Number);
+    const localDate = new Date(year, month - 1, day);
+    const jsDay = localDate.getDay();
+    // Our system: 0=Monday … 6=Sunday
     const dayOfWeek = jsDay === 0 ? 6 : jsDay - 1;
 
     const availabilities = await this.availabilityRepository.find({
       where: { doctorId, dayOfWeek, isActive: true },
     });
 
-    const slots: { startTime: string; endTime: string }[] = [];
+    const rawSlots: { startTime: string; endTime: string }[] = [];
     const duration = doctor.appointmentDurationMinutes;
 
     for (const availability of availabilities) {
@@ -148,7 +155,7 @@ export class DoctorsService {
         const slotEndH = Math.floor(slotEndMinutes / 60);
         const slotEndM = slotEndMinutes % 60;
 
-        slots.push({
+        rawSlots.push({
           startTime: `${String(slotStartH).padStart(2, '0')}:${String(slotStartM).padStart(2, '0')}`,
           endTime: `${String(slotEndH).padStart(2, '0')}:${String(slotEndM).padStart(2, '0')}`,
         });
@@ -157,7 +164,42 @@ export class DoctorsService {
       }
     }
 
-    return slots;
+    // Build date range using local midnight boundaries to match stored naive times
+    const startOfDay = new Date(`${date}T00:00:00`);
+    const endOfDay = new Date(`${date}T23:59:59.999`);
+
+    const bookedAppointments = await this.appointmentsRepository
+      .createQueryBuilder('appointment')
+      .where('appointment.doctorId = :doctorId', { doctorId })
+      .andWhere('appointment.appointmentDateTime BETWEEN :start AND :end', {
+        start: startOfDay,
+        end: endOfDay,
+      })
+      .andWhere('appointment.status NOT IN (:...excludedStatuses)', {
+        excludedStatuses: [AppointmentStatus.CANCELLED],
+      })
+      .getMany();
+
+    const bookedTimes = new Set(
+      bookedAppointments.map((apt) => {
+        const d = new Date(apt.appointmentDateTime);
+        return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+      }),
+    );
+
+    return Promise.all(
+      rawSlots.map(async (slot) => {
+        const isBooked = bookedTimes.has(slot.startTime);
+        const dateTimeKey = new Date(`${date}T${slot.startTime}:00`).toISOString();
+        const isLocked = await this.slotLockingService.isSlotLocked(doctorId, dateTimeKey);
+
+        return {
+          ...slot,
+          isAvailable: !isBooked && !isLocked,
+          isLocked,
+        };
+      }),
+    );
   }
 
   async remove(id: string): Promise<void> {
